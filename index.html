@@ -330,6 +330,12 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <style>
+        html {
+            scroll-padding-top: 96px; /* This reserves space for the fixed navbar */
+            scroll-behavior: smooth;
+        }
+    </style>
     <!-- Scroll to Top Button -->
     <button id="scrollToTop" aria-label="Scroll to top">
         <i class="fas fa-chevron-up"></i>
@@ -343,7 +349,7 @@
     <i class="fas fa-music music-note" style="left: 90%; animation-delay: 4s;"></i>
 
     <!-- Navigation Bar -->
-    <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300" style="background: transparent;">
+    <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 backdrop-blur-sm bg-gray-900 bg-opacity-80" style="min-height: 80px;">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-3">
@@ -944,7 +950,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="py-20 bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+    <section id="testimonials" class="py-20 bg-gradient-to-br from-blue-900 to-purple-900 text-white scroll-mt-24">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 fade-in">
                 <span class="text-yellow-400 font-semibold text-sm uppercase tracking-wider">What Couples Say</span>
@@ -1115,7 +1121,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white">
+    <section id="contact" class="py-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white scroll-mt-24">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 fade-in">
                 <span class="text-yellow-400 font-semibold text-sm uppercase tracking-wider">Let's Get Started</span>
