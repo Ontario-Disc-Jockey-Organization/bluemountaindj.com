@@ -20,6 +20,37 @@
             scroll-behavior: smooth;
         }
         
+        /* Scroll to Top Button Styles */
+        #scrollToTop {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(to right, #2563eb, #7c3aed);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #scrollToTop:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        #scrollToTop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
@@ -299,6 +330,11 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- Floating Music Notes -->
     <i class="fas fa-music music-note" style="left: 10%; animation-delay: 0s;"></i>
     <i class="fas fa-music music-note" style="left: 30%; animation-delay: 3s;"></i>
@@ -321,7 +357,6 @@
                 
                 <!-- Desktop Menu -->
                 <ul class="hidden md:flex space-x-8 text-white font-medium">
-                    <li><a href="#home" class="hover:text-blue-400 transition">Home</a></li>
                     <li><a href="#about" class="hover:text-blue-400 transition">About</a></li>
                     <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
                     <li><a href="#packages" class="hover:text-blue-400 transition">Packages</a></li>
@@ -346,7 +381,6 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-full h-full bg-gray-900 z-40 md:hidden">
         <div class="flex flex-col items-center justify-center h-full space-y-8 text-white text-xl">
-            <a href="#home" class="hover:text-blue-400 transition mobile-link">Home</a>
             <a href="#about" class="hover:text-blue-400 transition mobile-link">About</a>
             <a href="#services" class="hover:text-blue-400 transition mobile-link">Services</a>
             <a href="#packages" class="hover:text-blue-400 transition mobile-link">Packages</a>
@@ -1461,6 +1495,26 @@
         });
 
         // Start observing the contact form
+
+        // Scroll to Top Button Functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top when button is clicked
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
         contactObserver.observe(bookingForm);
 
         // Handle initial scroll behavior
