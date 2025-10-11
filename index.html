@@ -311,10 +311,12 @@
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-                        <i class="fas fa-headphones text-white"></i>
-                    </div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white">Blue Mountain DJ</h1>
+                    <a href="#home" class="flex items-center space-x-3 hover:opacity-90 transition">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-headphones text-white"></i>
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white">Blue Mountain DJ</h1>
+                    </a>
                 </div>
                 
                 <!-- Desktop Menu -->
@@ -1298,7 +1300,7 @@
     </footer>
 
     <!-- Sticky CTA Button -->
-    <a href="#contact" class="sticky-cta bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-full shadow-2xl hover:scale-110 transition flex items-center space-x-2">
+    <a href="#contact" id="sticky-cta" class="sticky-cta bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-full shadow-2xl hover:scale-110 transition flex items-center space-x-2 opacity-0 pointer-events-none">
         <i class="fas fa-calendar-check text-xl"></i>
         <span class="font-bold">Book Now</span>
     </a>
@@ -1431,6 +1433,56 @@
                 }
             });
         });
+
+        // Sticky CTA button visibility behavior
+        const stickyCTA = document.getElementById('sticky-cta');
+        const bookingForm = document.querySelector('#contact form');
+        let lastScrollY = window.scrollY;
+        const scrollThreshold = 200; // Show button after scrolling 200px
+
+        // Create an Intersection Observer for the contact form
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Hide button when contact form is visible
+                    stickyCTA.classList.add('opacity-0', 'pointer-events-none');
+                    stickyCTA.classList.remove('opacity-100', 'pointer-events-auto');
+                } else {
+                    // Show button when form is not visible (if scrolled past threshold)
+                    if (window.scrollY > scrollThreshold) {
+                        stickyCTA.classList.remove('opacity-0', 'pointer-events-none');
+                        stickyCTA.classList.add('opacity-100', 'pointer-events-auto');
+                    }
+                }
+            });
+        }, {
+            threshold: 0.2, // Trigger when 20% of the form is visible
+            rootMargin: '-10% 0px' // Add a small margin to make the transition smoother
+        });
+
+        // Start observing the contact form
+        contactObserver.observe(bookingForm);
+
+        // Handle initial scroll behavior
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > scrollThreshold && !isElementInViewport(bookingForm)) {
+                stickyCTA.classList.remove('opacity-0', 'pointer-events-none');
+                stickyCTA.classList.add('opacity-100', 'pointer-events-auto');
+            } else if (window.scrollY <= scrollThreshold) {
+                stickyCTA.classList.add('opacity-0', 'pointer-events-none');
+                stickyCTA.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Helper function to check if element is in viewport
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
 
         // Form submission feedback
         const contactForm = document.querySelector('form');
